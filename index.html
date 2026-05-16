@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a0012"/>
+  <title>رسالة من القلب 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- Particle canvas — always behind -->
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+  <!-- Aurora background layers -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-orb orb1"></div>
+    <div class="aurora-orb orb2"></div>
+    <div class="aurora-orb orb3"></div>
+  </div>
+
+  <!-- ══════════════════════════════
+       🔐 SCREEN 1 — Password + Music
+       ══════════════════════════════ -->
+  <section id="screen-password" class="screen active">
+    <div class="pw-layout">
+
+      <!-- Top: mini music player -->
+      <div class="mini-player" id="miniPlayer">
+        <div class="player-disc" id="playerDisc">
+          <div class="disc-ring r1"></div>
+          <div class="disc-ring r2"></div>
+          <div class="disc-core">♪</div>
+        </div>
+        <div class="player-info">
+          <span class="player-title">أغنيتنا</span>
+          <div class="player-bars" id="playerBars">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <button class="player-toggle" id="playerToggle" aria-label="تشغيل الموسيقى">
+          <span id="playerIcon">▶</span>
+        </button>
+        <audio id="bgMusic" loop preload="none">
+          <source src="music.mp3" type="audio/mpeg"/>
+        </audio>
+      </div>
+
+      <!-- Center: password card -->
+      <div class="card pw-card">
+        <!-- Decorative rose petals -->
+        <div class="petal p1" aria-hidden="true">🌹</div>
+        <div class="petal p2" aria-hidden="true">🌸</div>
+        <div class="petal p3" aria-hidden="true">✨</div>
+
+        <div class="pw-lock">🔐</div>
+        <h1 class="pw-title">هناك رسالة تنتظرك</h1>
+        <p class="pw-sub">تحتاج فقط أن تعرف السر</p>
+
+        <div class="pw-field-wrap">
+          <input
+            type="password"
+            id="passwordInput"
+            class="pw-input"
+            placeholder="✦ كلمة السر ✦"
+            autocomplete="off"
+            aria-label="كلمة السر"
+          />
+          <button class="eye-btn" id="eyeBtn" type="button" aria-label="إظهار كلمة السر">👁️</button>
+        </div>
+
+        <p id="errorMsg" class="error-msg" role="alert">كلمة السر خاطئة 💔</p>
+
+        <button class="btn-unlock" id="unlockBtn" type="button">
+          <span class="btn-heart">❤️</span>
+          <span>فتح القلب</span>
+          <span class="btn-sparkle">✨</span>
+        </button>
+
+        <p class="pw-hint">تلميح: كلمة واحدة تصف ما بيننا 💕</p>
+      </div>
+
+      <!-- Bottom: floating date badge -->
+      <div class="date-badge">
+        <span class="date-icon">🌹</span>
+        <span class="date-text" id="dateText">معاً منذ البداية</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       ⏳ SCREEN 2 — Countdown
+       ══════════════════════════════ -->
+  <section id="screen-countdown" class="screen">
+    <div class="card countdown-card">
+      <div class="card-rose">🌹</div>
+      <h2 class="card-title">معاً منذ...</h2>
+      <p class="card-sub">كل لحظة معك تستحق أن تُحسب</p>
+
+      <div class="countdown-grid">
+        <div class="count-cell"><span class="count-num" id="years">00</span><span class="count-lbl">سنوات</span></div>
+        <div class="count-cell"><span class="count-num" id="months">00</span><span class="count-lbl">أشهر</span></div>
+        <div class="count-cell"><span class="count-num" id="days">00</span><span class="count-lbl">أيام</span></div>
+        <div class="count-cell"><span class="count-num" id="hours">00</span><span class="count-lbl">ساعات</span></div>
+        <div class="count-cell"><span class="count-num" id="minutes">00</span><span class="count-lbl">دقائق</span></div>
+        <div class="count-cell"><span class="count-num" id="seconds">00</span><span class="count-lbl">ثواني</span></div>
+      </div>
+
+      <p class="card-caption">كل لحظة معك تساوي الدنيا 🌹</p>
+      <button class="btn-next" id="countdownNext" type="button">التالي <span>💌</span></button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       💌 SCREEN 3 — Messages
+       ══════════════════════════════ -->
+  <section id="screen-messages" class="screen">
+    <div class="messages-shell">
+      <div class="msg-bar"><div class="msg-bar-fill" id="msgBarFill"></div></div>
+
+      <div class="card msg-card" id="msgCard">
+        <div class="msg-icon" id="msgIcon">💌</div>
+        <p class="msg-text" id="msgText">&nbsp;</p>
+      </div>
+
+      <div class="dots-row" id="dotsRow"></div>
+      <button class="btn-next" id="msgNext" type="button"><span id="msgNextLabel">التالي</span> <span>💫</span></button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       🖼️ SCREEN 4 — Gallery
+       ══════════════════════════════ -->
+  <section id="screen-gallery" class="screen">
+    <div class="card gallery-card">
+      <div class="card-rose">📸</div>
+      <h2 class="card-title">لحظاتنا</h2>
+      <p class="card-sub">كل صورة تحكي قصة جميلة</p>
+
+      <!-- Upload button (visible when no photos loaded) -->
+      <label class="upload-label" id="uploadLabel" for="photoUpload">
+        <span class="upload-icon">📁</span>
+        <span class="upload-text">اضغط لإضافة صورك</span>
+        <span class="upload-hint">JPG · PNG · WEBP</span>
+      </label>
+      <input type="file" id="photoUpload" accept="image/*" multiple hidden />
+
+      <!-- Gallery grid — filled by JS -->
+      <div class="gallery-grid" id="galleryGrid"></div>
+
+      <!-- Caption text area (always visible) -->
+      <div class="gallery-caption-wrap" id="galleryCaptionWrap">
+        <textarea
+          id="galleryCaption"
+          class="gallery-caption"
+          placeholder="✍️ اكتب هنا كلمة تصف لحظاتنا..."
+          rows="2"
+          maxlength="200"
+        ></textarea>
+        <span class="caption-count" id="captionCount">0 / 200</span>
+      </div>
+
+      <button class="btn-next" id="galleryNext" type="button">التالي <span>🎉</span></button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       🔍 LIGHTBOX — full-screen photo viewer
+       ══════════════════════════════ -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="عرض الصورة" hidden>
+    <button class="lb-close" id="lbClose" aria-label="إغلاق">✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="السابق">‹</button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="التالي">›</button>
+    <div class="lb-img-wrap">
+      <img id="lbImg" src="" alt="" class="lb-img" />
+      <p class="lb-caption" id="lbCaption"></p>
+    </div>
+    <div class="lb-dots" id="lbDots"></div>
+  </div>
+
+  <!-- ══════════════════════════════
+       🎉 SCREEN 5 — Final
+       ══════════════════════════════ -->
+  <section id="screen-final" class="screen">
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+    <div class="card final-card">
+      <div class="final-heart" id="finalHeart">❤️</div>
+      <h1 class="final-title" id="finalTitle"></h1>
+      <p class="final-body"  id="finalMsg"></p>
+      <div class="signature">
+        <span class="sig-from">بكل حب</span>
+        <div class="sig-hearts">❤️ 🌹 ❤️</div>
+      </div>
+      <div class="final-btns">
+        <button class="btn-photos" id="viewPhotosBtn" type="button">📸 لحظاتنا مرة أخرى</button>
+        <button class="btn-restart" id="restartBtn" type="button">🔄 من البداية</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
